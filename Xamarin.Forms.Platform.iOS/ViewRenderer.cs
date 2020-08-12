@@ -154,7 +154,7 @@ namespace Xamarin.Forms.Platform.MacOS
 					UpdateIsEnabled();
 				else if (e.PropertyName == VisualElement.BackgroundColorProperty.PropertyName)
 					SetBackgroundColor(Element.BackgroundColor);
-				else if (e.PropertyName == VisualElement.BackgroundProperty.PropertyName)
+				else if (e.PropertyName == VisualElement.BackgroundProperty.PropertyName || e.PropertyName == VisualElement.FlowDirectionProperty.PropertyName)
 					SetBackground(Element.Background);
 				else if (e.PropertyName == VisualElement.FlowDirectionProperty.PropertyName)
 					UpdateFlowDirection();
@@ -215,7 +215,9 @@ namespace Xamarin.Forms.Platform.MacOS
 			if (IsElementOrControlEmpty)
 				return;
 
-			Control.UpdateBackground(brush);
+			BrushData brushData = new BrushData(brush, Element.FlowDirection);
+
+			Control.UpdateBackground(brushData);
 		}
 
 		protected void SetNativeControl(TNativeView uiview)
