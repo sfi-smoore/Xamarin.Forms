@@ -132,7 +132,7 @@ namespace Xamarin.Forms.Material.Android
 				UpdateIsRunning();
 			else if (e.Is(ActivityIndicator.ColorProperty))
 				UpdateColor();
-			else if (e.IsOneOf(VisualElement.BackgroundColorProperty, VisualElement.BackgroundProperty))
+			else if (e.IsOneOf(VisualElement.BackgroundColorProperty, VisualElement.BackgroundProperty, VisualElement.FlowDirectionProperty))
 				UpdateBackground();
 		}
 
