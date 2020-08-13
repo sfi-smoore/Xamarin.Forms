@@ -12,6 +12,7 @@ using NativeView = UIKit.UIView;
 
 namespace Xamarin.Forms.Platform.iOS
 #else
+using AppKit;
 using NativeView = AppKit.NSView;
 using NativeColor = CoreGraphics.CGColor;
 using NativeControl = AppKit.NSControl;
@@ -154,10 +155,13 @@ namespace Xamarin.Forms.Platform.MacOS
 					UpdateIsEnabled();
 				else if (e.PropertyName == VisualElement.BackgroundColorProperty.PropertyName)
 					SetBackgroundColor(Element.BackgroundColor);
-				else if (e.PropertyName == VisualElement.BackgroundProperty.PropertyName || e.PropertyName == VisualElement.FlowDirectionProperty.PropertyName)
+				else if (e.PropertyName == VisualElement.BackgroundProperty.PropertyName)
 					SetBackground(Element.Background);
 				else if (e.PropertyName == VisualElement.FlowDirectionProperty.PropertyName)
+				{
 					UpdateFlowDirection();
+					UpdateBackground();
+				}
 			}
 
 			base.OnElementPropertyChanged(sender, e);
@@ -216,8 +220,20 @@ namespace Xamarin.Forms.Platform.MacOS
 				return;
 
 			BrushData brushData = new BrushData(brush, Element.FlowDirection);
-
+#if __MOBILE__
 			Control.UpdateBackground(brushData);
+#else
+			if (brush is SolidColorBrush solidColorBrush)
+			{
+				Color color = solidColorBrush.Color;
+				Control.Layer.BackgroundColor = color == Color.Default ? _defaultColor : color.ToCGColor();
+			}
+			else
+			{
+				var backgroundImage = this.GetBackgroundImage(brushData);
+				Control.Layer.BackgroundColor = backgroundImage != null ? NSColor.FromPatternImage(backgroundImage).CGColor : NSColor.Clear.CGColor;
+			}
+#endif
 		}
 
 		protected void SetNativeControl(TNativeView uiview)
