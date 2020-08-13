@@ -122,6 +122,9 @@ namespace Xamarin.Forms.Platform.MacOS
 			if (backgroundLayer == null)
 				return null;
 
+			if (backgroundLayer.Bounds.IsEmpty)
+				return null;
+
 			NSImage backgroundImage = new NSImage(new CGSize(backgroundLayer.Bounds.Width, backgroundLayer.Bounds.Height));
 			backgroundImage.LockFocus();
 			var context = NSGraphicsContext.CurrentContext.GraphicsPort;
@@ -133,6 +136,9 @@ namespace Xamarin.Forms.Platform.MacOS
 
 		public static void InsertBackgroundLayer(this NSView view, CAGradientLayer backgroundLayer, int index)
 		{
+			if (view == null)
+				return;
+
 			InsertBackgroundLayer(view.Layer, backgroundLayer, index);
 		}
 
@@ -170,7 +176,7 @@ namespace Xamarin.Forms.Platform.MacOS
 
 		static bool ShouldUseParentView(NSView view)
 		{
-			if (view is NSButton || view is NSTextField || view is NSDatePicker || view is NSSlider || view is NSStepper)
+			if ((view is NSButton || view is NSTextField || view is NSDatePicker || view is NSSlider || view is NSStepper) && view.Superview != null)
 				return true;
 
 			return false;
