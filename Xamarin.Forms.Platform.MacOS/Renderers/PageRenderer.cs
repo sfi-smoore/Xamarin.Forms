@@ -33,7 +33,10 @@ namespace Xamarin.Forms.Platform.MacOS
 					Brush background = _renderer.Element.Background;
 
 					if (!Brush.IsNullOrEmpty(background))
-						_renderer.NativeView.UpdateBackground(_renderer.Element.Background);
+					{
+						FlowDirection flowDirection = _renderer.Element.FlowDirection;
+						_renderer.NativeView.UpdateBackground(new BrushData(background, flowDirection));
+					}
 					else
 					{
 						Color bgColor = _renderer.Element.BackgroundColor;
