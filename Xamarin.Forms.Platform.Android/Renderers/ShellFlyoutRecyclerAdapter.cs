@@ -1,10 +1,10 @@
-﻿using Android.Runtime;
-using AndroidX.RecyclerView.Widget;
-using Android.Views;
-using Android.Widget;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Android.Runtime;
+using Android.Views;
+using Android.Widget;
+using AndroidX.RecyclerView.Widget;
 using Xamarin.Forms.Internals;
 using AView = Android.Views.View;
 using LP = Android.Views.ViewGroup.LayoutParams;

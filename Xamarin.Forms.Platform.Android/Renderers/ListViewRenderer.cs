@@ -1,15 +1,15 @@
+using System;
 using System.ComponentModel;
 using Android.Content;
+using Android.Runtime;
+using Android.Views;
+using Android.Widget;
 using AndroidX.Core.Widget;
 using AndroidX.SwipeRefreshLayout.Widget;
-using Android.Views;
+using Xamarin.Forms.Internals;
+using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 using AListView = Android.Widget.ListView;
 using AView = Android.Views.View;
-using Xamarin.Forms.Internals;
-using System;
-using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
-using Android.Widget;
-using Android.Runtime;
 
 namespace Xamarin.Forms.Platform.Android
 {
@@ -61,7 +61,7 @@ namespace Xamarin.Forms.Platform.Android
 			if (disposing)
 			{
 				Controller.ScrollToRequested -= OnScrollToRequested;
-		
+
 				if (_headerRenderer != null)
 				{
 					Platform.ClearRenderer(_headerRenderer.View);
@@ -145,7 +145,7 @@ namespace Xamarin.Forms.Platform.Android
 				{
 					// Unhook the adapter from the ListView before disposing of it
 					Control.Adapter = null;
-					
+
 					Control.SetOnScrollListener(null);
 				}
 
@@ -176,7 +176,7 @@ namespace Xamarin.Forms.Platform.Android
 
 				((IListViewController)e.NewElement).ScrollToRequested += OnScrollToRequested;
 				Control?.SetOnScrollListener(new ListViewScrollDetector(this));
-				
+
 				nativeListView.DividerHeight = 0;
 				nativeListView.Focusable = false;
 				nativeListView.DescendantFocusability = DescendantFocusability.AfterDescendants;
@@ -411,9 +411,9 @@ namespace Xamarin.Forms.Platform.Android
 					_refresh.Refreshing = false;
 					_refresh.Post(() =>
 					{
-						if(_refresh.IsDisposed())
+						if (_refresh.IsDisposed())
 							return;
-						
+
 						_refresh.Refreshing = true;
 					});
 				}
@@ -487,7 +487,7 @@ namespace Xamarin.Forms.Platform.Android
 
 			Control.VerticalScrollBarEnabled = newVerticalScrollVisibility == ScrollBarVisibility.Always;
 		}
-		
+
 		internal class Container : ViewGroup
 		{
 			IVisualElementRenderer _child;
